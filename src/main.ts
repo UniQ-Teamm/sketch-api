@@ -22,6 +22,7 @@ import { EnvEnum } from '@/enums/app.enum';
 import { LoggerService } from '@/logger/custom.logger';
 import { isEnv } from '@/utils/util';
 import { ValidatorsModule } from '@/validators/validators.module';
+import fastify from 'fastify';
 
 async function bootstrap() {
   let logLevelsDefault: LogLevel[] = [
@@ -36,6 +37,20 @@ async function bootstrap() {
     const logLevel = process.env.LOG_LEVEL || 'error,debug,verbose';
     logLevelsDefault = logLevel.split(',') as LogLevel[];
   }
+
+  const instance = fastify();
+  instance.addHook('onRequest', (request, reply, done) => {
+    reply['setHeader'] = function (key, value) {
+      return this.raw.setHeader(key, value);
+    };
+    reply['writeHead'] = function (key, value) {
+      return this.raw.writeHead(key, value);
+    };
+    reply['end'] = function () {
+      this.raw.end();
+    };
+    done();
+  });
 
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,

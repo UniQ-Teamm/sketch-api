@@ -1,11 +1,8 @@
 import { Logger, Module } from '@nestjs/common';
-import { sql } from 'drizzle-orm';
-import { drizzle } from 'drizzle-orm/node-postgres';
-import { Client, Pool } from 'pg';
 import { catchError, defer, lastValueFrom, retry } from 'rxjs';
 
 import { DRIZZLE_CONNECTION } from './drizzle.constants';
-import { DrizzlePGConfig } from './drizzle.interface';
+import { DrizzleModuleConfig } from './drizzle.interface';
 import {
   ConfigurableDrizzleModule,
   DRIZZLE_OPTIONS,
@@ -17,26 +14,17 @@ const logger = new Logger('DrizzleModule');
     {
       provide: DRIZZLE_CONNECTION,
       inject: [DRIZZLE_OPTIONS],
-      useFactory: (options: DrizzlePGConfig) => {
+      useFactory: (drizzle: DrizzleModuleConfig) => {
         return lastValueFrom(
           defer(async () => {
-            if (options.pg.connection === 'client') {
-              const client = new Client(options.pg.config);
-              await client.connect();
-              return drizzle(client, options?.config);
-            }
-
-            console.log({ config: options.pg });
-
-            const pool = new Pool(options.pg.config);
-            const client = drizzle(pool, options?.config);
-
             try {
-              await client.execute(sql.raw(`select 1`));
-              return client;
+              if (!drizzle.client || typeof drizzle.client !== 'function') {
+                throw new Error()
+              }
+              return await drizzle.client();
             } catch (error) {
               logger.error('Unable to connect to the database', error?.stack);
-              throw error;
+              throw error
             }
           }).pipe(
             retry({ count: 10, delay: 1000 }),
@@ -50,4 +38,4 @@ const logger = new Logger('DrizzleModule');
   ],
   exports: [DRIZZLE_CONNECTION],
 })
-export class DrizzleModule extends ConfigurableDrizzleModule {}
+export class DrizzleModule extends ConfigurableDrizzleModule { }
