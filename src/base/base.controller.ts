@@ -9,10 +9,10 @@ import { BaseError } from '@/exceptions/errors/base.error';
 import { DatabaseError } from '@/exceptions/errors/database.error';
 
 export class BaseController {
-  private _i18n: I18nService;
+  protected i18n: I18nService;
 
   constructor(i18n: I18nService) {
-    this._i18n = i18n;
+    this.i18n = i18n;
   }
 
   /***
@@ -23,14 +23,14 @@ export class BaseController {
   protected throwErrorProcess(error: unknown, lang: string = 'vi'): void {
     if (error instanceof BaseError) {
       throw new BadRequestException({
-        message: this._i18n.lang(error.getMessage(), lang),
+        message: this.i18n.lang(error.getMessage(), lang),
         errorCode: error.getErrorCode(),
         cause: error.getMessage(),
       });
     } else if (error instanceof TypeError) {
       // console.error(error)
       throw new ValidateError(
-        this._i18n.lang(ErrorMessageCode.SYNTAX_ERROR, lang),
+        this.i18n.lang(ErrorMessageCode.SYNTAX_ERROR, lang),
         ErrorCode.SYNTAX_ERROR,
         error,
       );
@@ -39,7 +39,7 @@ export class BaseController {
       if (isString(response)) {
         throw new BadRequestException(
           {
-            message: this._i18n.lang(
+            message: this.i18n.lang(
               (response.message as string) || 'Unknown error',
             ),
             errorCode: (response.errorCode as number) || ErrorCode.UNKNOWN,
@@ -50,7 +50,7 @@ export class BaseController {
 
       throw new BadRequestException(
         {
-          message: this._i18n.lang(
+          message: this.i18n.lang(
             (response.message as string) || 'Unknown error',
           ),
           errorCode: (response.errorCode as number) || ErrorCode.UNKNOWN,
@@ -61,7 +61,7 @@ export class BaseController {
 
     throw new DatabaseError(
       (error as Error).message,
-      // this._i18n.lang(ErrorMessageCode.DATABASE_ERROR, lang),
+      // this.i18n.lang(ErrorMessageCode.DATABASE_ERROR, lang),
       ErrorCode.DATABASE_ERROR,
       error as Error,
     );

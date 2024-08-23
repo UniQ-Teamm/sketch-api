@@ -1,4 +1,3 @@
-
 export interface DrizzleModuleConfig {
-  client: () => any
+  client: () => any;
 }

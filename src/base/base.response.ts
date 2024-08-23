@@ -14,4 +14,12 @@ export class BaseResponseDto<T = any> {
     this.data = data;
     this.statusCode = statusCode;
   }
+
+  static ok<T>(
+    data: T | T[] | null = null,
+    message = MessageCode.SUCCESS,
+    statusCode = 200,
+  ) {
+    return new BaseResponseDto(data, message, statusCode);
+  }
 }

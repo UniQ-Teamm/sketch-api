@@ -19,12 +19,12 @@ const logger = new Logger('DrizzleModule');
           defer(async () => {
             try {
               if (!drizzle.client || typeof drizzle.client !== 'function') {
-                throw new Error()
+                throw new Error();
               }
               return await drizzle.client();
             } catch (error) {
               logger.error('Unable to connect to the database', error?.stack);
-              throw error
+              throw error;
             }
           }).pipe(
             retry({ count: 10, delay: 1000 }),
@@ -38,4 +38,4 @@ const logger = new Logger('DrizzleModule');
   ],
   exports: [DRIZZLE_CONNECTION],
 })
-export class DrizzleModule extends ConfigurableDrizzleModule { }
+export class DrizzleModule extends ConfigurableDrizzleModule {}

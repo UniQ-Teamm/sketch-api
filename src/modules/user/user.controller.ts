@@ -18,7 +18,7 @@ import { UserService } from './user.service';
 export class UserController extends BaseController {
   constructor(
     private readonly userService: UserService,
-    private readonly i18n: I18nService,
+    i18n: I18nService,
   ) {
     super(i18n);
   }
