@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@drepkovsky/drizzle-migrations':
-        specifier: ^0.5.0
-        version: 0.5.0(drizzle-kit@0.24.2)(drizzle-orm@0.33.0(@types/pg@8.11.6)(pg@8.12.0))
       '@fastify/helmet':
         specifier: ^11.1.1
         version: 11.1.1
@@ -20,6 +17,9 @@ importers:
       '@fastify/static':
         specifier: ^7.0.4
         version: 7.0.4
+      '@llong2195/drizzle-migrations':
+        specifier: ^0.5.0
+        version: 0.5.0(drizzle-kit@0.24.2)(drizzle-orm@0.33.0(@types/pg@8.11.6)(pg@8.12.0))
       '@nestjs/bullmq':
         specifier: ^10.2.1
         version: 10.2.1(@nestjs/common@10.4.1(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.1(@nestjs/common@10.4.1(class-transformer@0.5.1)(class-validator@0.14.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/websockets@10.4.1)(reflect-metadata@0.2.2)(rxjs@7.8.1))(bullmq@5.12.10)
@@ -381,13 +381,6 @@ packages:
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
-
-  '@drepkovsky/drizzle-migrations@0.5.0':
-    resolution: {integrity: sha512-7peS4H4NbSdcQG4iyKNxoGhMiANDQuxahyLJ9mK3zqlRUuwRvAcEwvnkQLZIuTrAYJzCXD95BUqzU4Bh7Rag6Q==}
-    hasBin: true
-    peerDependencies:
-      drizzle-kit: ^0.22.8
-      drizzle-orm: ^0.31.2
 
   '@drizzle-team/brocli@0.10.1':
     resolution: {integrity: sha512-AHy0vjc+n/4w/8Mif+w86qpppHuF3AyXbcWW+R/W7GNA3F5/p2nuhlkCJaTXSLZheB4l1rtHzOfr9A7NwoR/Zg==}
@@ -995,6 +988,13 @@ packages:
   '@ljharb/through@2.3.13':
     resolution: {integrity: sha512-/gKJun8NNiWGZJkGzI/Ragc53cOdcLNdzjLaIa+GEjguQs0ulsurx8WN0jijdK9yPqDvziX995sMRLyLt1uZMQ==}
     engines: {node: '>= 0.4'}
+
+  '@llong2195/drizzle-migrations@0.5.0':
+    resolution: {integrity: sha512-5+DCramk1HbSd/16+6cFFsYjvzIGFzKreRxFG8YS46fFSfLSUlQUluvVUucrrDA689GY2giFmtFtw37o4KgGXQ==}
+    hasBin: true
+    peerDependencies:
+      drizzle-kit: ^0.24.2
+      drizzle-orm: ^0.33.0
 
   '@lukeed/csprng@1.1.0':
     resolution: {integrity: sha512-Z7C/xXCiGWsg0KuKsHTKJxbWhpI3Vs5GwLfOean7MGyVFGqdRgBbAjOCh6u4bbjPc/8MJ2pZmK/0DLdCbivLDA==}
@@ -4230,8 +4230,8 @@ packages:
   tslib@2.7.0:
     resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
 
-  tsx@4.18.0:
-    resolution: {integrity: sha512-a1jaKBSVQkd6yEc1/NI7G6yHFfefIcuf3QJST7ZEyn4oQnxLYrZR5uZAM8UrwUa3Ge8suiZHcNS1gNrEvmobqg==}
+  tsx@4.19.0:
+    resolution: {integrity: sha512-bV30kM7bsLZKZIOCHeMNVMJ32/LuJzLVajkQI/qf92J2Qr08ueLQvW00PUZGiuLPP760UINwupgUj8qrSCPUKg==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -4689,18 +4689,6 @@ snapshots:
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
-
-  '@drepkovsky/drizzle-migrations@0.5.0(drizzle-kit@0.24.2)(drizzle-orm@0.33.0(@types/pg@8.11.6)(pg@8.12.0))':
-    dependencies:
-      commander: 12.1.0
-      console-table-printer: 2.12.1
-      drizzle-kit: 0.24.2
-      drizzle-orm: 0.33.0(@types/pg@8.11.6)(pg@8.12.0)
-      lodash.camelcase: 4.3.0
-      lodash.kebabcase: 4.1.1
-      lodash.snakecase: 4.1.1
-      prompts: 2.4.2
-      tsx: 4.18.0
 
   '@drizzle-team/brocli@0.10.1': {}
 
@@ -5239,6 +5227,18 @@ snapshots:
   '@ljharb/through@2.3.13':
     dependencies:
       call-bind: 1.0.7
+
+  '@llong2195/drizzle-migrations@0.5.0(drizzle-kit@0.24.2)(drizzle-orm@0.33.0(@types/pg@8.11.6)(pg@8.12.0))':
+    dependencies:
+      commander: 12.1.0
+      console-table-printer: 2.12.1
+      drizzle-kit: 0.24.2
+      drizzle-orm: 0.33.0(@types/pg@8.11.6)(pg@8.12.0)
+      lodash.camelcase: 4.3.0
+      lodash.kebabcase: 4.1.1
+      lodash.snakecase: 4.1.1
+      prompts: 2.4.2
+      tsx: 4.19.0
 
   '@lukeed/csprng@1.1.0': {}
 
@@ -8730,7 +8730,7 @@ snapshots:
 
   tslib@2.7.0: {}
 
-  tsx@4.18.0:
+  tsx@4.19.0:
     dependencies:
       esbuild: 0.23.1
       get-tsconfig: 4.7.6
