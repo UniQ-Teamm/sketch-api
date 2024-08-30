@@ -265,7 +265,6 @@ export const decryptObj = (encryptText: string, secretKey: string): unknown => {
   return JSON.parse(bytes);
 };
 
-
 /**
  * Converts an object to a Map<string, string>.
  *
