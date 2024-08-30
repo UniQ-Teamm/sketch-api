@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { sql } from 'drizzle-orm';
-import { withReplicas } from 'drizzle-orm/mysql-core';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 
