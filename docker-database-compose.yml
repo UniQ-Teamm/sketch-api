@@ -1,0 +1,55 @@
+name: common
+
+services:
+  redis:
+    image: redis:7
+    ports:
+      - '6379:6379'
+    restart: unless-stopped
+    networks:
+      - common
+
+  postgres:
+    image: postgres:16
+    user: postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=sketch_app
+      - POSTGRES_PASSWORD=password@123
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: [ 'CMD', 'pg_isready' ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - common
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+
+    ports:
+      - '5444:80'
+    restart: unless-stopped
+    networks:
+      - common
+
+volumes:
+  postgres:
+  pgadmin:
+
+
+networks:
+  common:
+    driver: bridge
+    external: true

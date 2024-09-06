@@ -8,7 +8,7 @@
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
 
-name: nest-drizzle
+name: sketch
 
 services:
   server:
@@ -16,46 +16,15 @@ services:
       context: .
     env_file:
       - path: .env
+    environment:
+      - DATABASE_HOST=postgres
     ports:
       - 4404:4404
     restart: on-failure
-    depends_on:
-      postgres:
-        condition: service_healthy
+    networks:
+      - common
 
-  postgres:
-    container_name: postgres_container
-    image: postgres:16
-    restart: always
-    user: postgres
-    volumes:
-      - postgres:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=nest-drizzle
-      - POSTGRES_PASSWORD=password@123
-    ports:
-      - '5432:5432'
-    healthcheck:
-      test: ['CMD', 'pg_isready']
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.org
-      PGADMIN_DEFAULT_PASSWORD: password
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin:/var/lib/pgadmin
-
-    ports:
-      - '5444:80'
-    restart: unless-stopped
-
-volumes:
-  postgres:
-  pgadmin:
+networks:
+  common:
+    driver: bridge
+    external: true

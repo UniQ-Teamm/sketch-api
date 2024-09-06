@@ -6,8 +6,8 @@
 
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
-ARG NODE_VERSION=20.15.0
-ARG PNPM_VERSION=9.3.0
+ARG NODE_VERSION=20.17.0
+ARG PNPM_VERSION=9.7.1
 
 ################################################################################
 # Use node image for base image for all stages.
@@ -66,11 +66,11 @@ COPY package.json .
 # Copy the production dependencies from the deps stage and also
 # the built application from the build stage into the image.
 COPY --from=deps /usr/src/app/node_modules ./node_modules
-COPY --from=build /usr/src/app/. ./nest-drizzle
+COPY --from=build /usr/src/app/ ./
 
 
-# Expose the port that the application listens on.
-EXPOSE 4404
+# # Expose the port that the application listens on.
+# EXPOSE 4404
 
 # Run the application.
-CMD cd ./nest-drizzle && node dist/main.js
+CMD node dist/main.js
