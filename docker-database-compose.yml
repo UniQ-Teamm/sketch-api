@@ -1,17 +1,18 @@
 name: common
 
 services:
-  redis:
-    image: redis:lastest
+  image: redis:latest
     container_name: redis
+    restart: always
     ports:
-      - '6379:6379'
-    restart: unless-stopped
+      - 6379:6379
+    volumes:
+      - redis_data:/data
     networks:
       - common
 
   postgres:
-    image: postgres:lastest
+    image: postgres:latest
     container_name: postgres
     volumes:
       - postgres:/var/lib/postgresql/data
@@ -29,9 +30,29 @@ services:
     restart: unless-stopped
     networks:
       - common
+      
+  postgres-slave:
+    image: postgres:latest
+    container_name: postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=sketch_app
+      - POSTGRES_PASSWORD=password@123
+    ports:
+      - '5434:5432'
+    healthcheck:
+      test: [ 'CMD', 'pg_isready' ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - common
 
   pgadmin:
-    image: dpage/pgadmin4:lastest
+    image: dpage/pgadmin4:latest
     container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@pgadmin.org
@@ -41,7 +62,7 @@ services:
       - pgadmin:/var/lib/pgadmin
 
     ports:
-      - '5444:80'
+      - '8888:80'
     restart: unless-stopped
     networks:
       - common
@@ -49,6 +70,7 @@ services:
 volumes:
   postgres:
   pgadmin:
+  redis_data:
 
 
 networks:
