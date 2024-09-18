@@ -2,7 +2,8 @@ name: common
 
 services:
   redis:
-    image: redis:7
+    image: redis:lastest
+    container_name: redis
     ports:
       - '6379:6379'
     restart: unless-stopped
@@ -10,8 +11,8 @@ services:
       - common
 
   postgres:
-    image: postgres:16
-    user: postgres
+    image: postgres:lastest
+    container_name: postgres
     volumes:
       - postgres:/var/lib/postgresql/data
     environment:
@@ -30,7 +31,8 @@ services:
       - common
 
   pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:lastest
+    container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@pgadmin.org
       PGADMIN_DEFAULT_PASSWORD: password
